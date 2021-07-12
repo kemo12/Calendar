@@ -1,0 +1,44 @@
+.calendarHeader{
+    padding: 10px 5px 10px 30px;
+    display: flex;
+    border-bottom: 1px solid #d3d3d3;
+    font-size: 12px;
+
+    
+}
+.calendarButtonsContainer{
+    margin-left: 10px;
+    
+}
+.select{
+    border: 1px solid #d9d9d9;
+    height: 22px;
+    color: rgba(0,0,0,.65);
+    border-radius: 2px;
+    width: 55px;
+    margin-left: 5px;
+}
+.select:hover{
+    border: 1px solid #49a9ee;
+
+}
+.btn{
+    border-radius: 2px;
+    border: 1px solid #d9d9d9;
+    height: 22px;
+    padding: 0px 12px 0px 12px;
+    background-color: #fff;
+    
+}   
+.btn:hover{
+     color: #49a9ee;
+
+}
+.btnClicked{
+    border: 1px solid #49a9ee;
+    color: #49a9ee;
+    padding: 0px 12px 0px 12px;
+    height: 22px;
+
+
+}
