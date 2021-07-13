@@ -9,10 +9,26 @@
 }
 
 .selected{
-    background-color: red;
+    border-radius: 5px;
+    background-color: #108ee9;
+    color:#fff;
 }
 .dayBtn{
     padding: 8px;
     background-color: transparent;
     border: 0px;
+}
+
+.monthesContainer{
+    
+    display: flex;
+    flex-wrap:wrap;
+    text-align: center;
+
+}
+.child{
+    text-align: center;
+    width: 30px;
+    margin:5px 0px 32px 45px ;
+    font-size: 15px;
 }

@@ -1,15 +1,21 @@
 import React,{useState,useEffect} from 'react'
 import "./Table.css"
 import moment from 'moment';
-const Table = ({buttonDisable}) => {
+
+const getAbsoluteTime = (params) => moment().set({ year: 0, month: 0, day: 0, hour: 0, minute: 0, second: 0, ...params })
+
+const Table = ({buttonSelected,setValue,selectedYear,selectedMonth,value,setSelectedMonth}) => {
     const week=['Su','Mo','Tu','We','Th','Fr','Sa'];
     const [cal,setCal]=useState([]);
-    const [value,setValue]=useState(moment());
-    const startDay=value.clone().startOf("month").startOf("week");
-    const endDay=value.clone().endOf("month").endOf("week");
-    const onClickDay=()=>{
-        console.log("hi")
+    const startDay=getAbsoluteTime({ year: selectedYear, month: selectedMonth }).clone().startOf("month").startOf("week");
+    const endDay=getAbsoluteTime({ year: selectedYear, month: selectedMonth }).clone().endOf("month").endOf("week");
+    const month=[moment.monthsShort()];
+    const diplayMonth=()=>{
+        var arrays = [], size = 3;   
+        for (let i = 0; i < month.length; i += size)
+        arrays.push(month.slice(i, i + size));
     }
+
     useEffect(()=>{
              const day=startDay.clone().subtract(1,"day")
              const a=[];
@@ -18,13 +24,14 @@ const Table = ({buttonDisable}) => {
             Array(7)
             .fill(0)
             .map(()=>day.add(1,"day").clone()))
+            diplayMonth()
         
     }
     setCal(a);
-    },[])
+    },[selectedYear, selectedMonth]);
     return (
         <div className="tableContainer" >
-            {buttonDisable==1?
+            {buttonSelected==1?
             <table className="table">
                 <thead>
                     <tr> 
@@ -56,7 +63,16 @@ const Table = ({buttonDisable}) => {
                 </tbody>
             </table>
                 :
-                <h1>sads</h1>
+                <div className="monthesContainer" >
+                    {
+                    moment.monthsShort().map((itm,index)=>
+                           
+                            <div key={itm} onClick={()=>setSelectedMonth(itm)} className={`child font ${itm==selectedMonth?("selected"):("")}`}>
+                                {itm}
+                                </div >
+                            
+                        )}
+                </div>
                 }
         </div>
     )
