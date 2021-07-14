@@ -1,37 +1,34 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import "./Table.css"
 import moment from 'moment';
+import calendarContext from '../../Context/Context';
+import classNames from 'classnames';
 
 const getAbsoluteTime = (params) => moment().set({ year: 0, month: 0, day: 0, hour: 0, minute: 0, second: 0, ...params })
 
-const Table = ({buttonSelected,setValue,selectedYear,selectedMonth,value,setSelectedMonth}) => {
+const Table = () => {
+    const value = useContext(calendarContext);
     const week=['Su','Mo','Tu','We','Th','Fr','Sa'];
     const [cal,setCal]=useState([]);
-    const startDay=getAbsoluteTime({ year: selectedYear, month: selectedMonth }).clone().startOf("month").startOf("week");
-    const endDay=getAbsoluteTime({ year: selectedYear, month: selectedMonth }).clone().endOf("month").endOf("week");
-    const month=[moment.monthsShort()];
-    const diplayMonth=()=>{
-        var arrays = [], size = 3;   
-        for (let i = 0; i < month.length; i += size)
-        arrays.push(month.slice(i, i + size));
+    const startDay=getAbsoluteTime({ year: value.selectedYear, month: value.selectedMonth }).clone().startOf("month").startOf("week");
+    const endDay=getAbsoluteTime({ year: value.selectedYear, month: value.selectedMonth }).clone().endOf("month").endOf("week");
+    const ccalnderWeekGit=()=>{
+        const day=startDay.clone().subtract(1,"day")
+        const a=[];
+        while(day.isBefore(endDay,"day")){
+       a.push(
+       Array(7)
+       .fill(0)
+       .map(()=>day.add(1,"day").clone()))
     }
-
+    return a;
+}
     useEffect(()=>{
-             const day=startDay.clone().subtract(1,"day")
-             const a=[];
-             while(day.isBefore(endDay,"day")){
-            a.push(
-            Array(7)
-            .fill(0)
-            .map(()=>day.add(1,"day").clone()))
-            diplayMonth()
-        
-    }
-    setCal(a);
-    },[selectedYear, selectedMonth]);
+    setCal(ccalnderWeekGit());
+    },[value.selectedYear, value.selectedMonth]);
     return (
         <div className="tableContainer" >
-            {buttonSelected==1?
+            {parseInt(value.buttonSelected)===1?
             <table className="table">
                 <thead>
                     <tr> 
@@ -48,9 +45,10 @@ const Table = ({buttonSelected,setValue,selectedYear,selectedMonth,value,setSele
                             week.map(day=>
 
                                 <th  
-                                  className={`font ${value.isSame(day,'day')?"selected":""}`}  
+                                className={classNames('font',{selected:value.Val.isSame(day,'day'),'':!value.Val.isSame(day,'day')})} 
+                                   
                                   key={day}
-                                  onClick={()=>setValue(day)}
+                                  onClick={()=>value.setValue(day)}
                                   >
                                       <button className="dayBtn">
                                         {day.format("D").toString()}
@@ -67,7 +65,9 @@ const Table = ({buttonSelected,setValue,selectedYear,selectedMonth,value,setSele
                     {
                     moment.monthsShort().map((itm,index)=>
                            
-                            <div key={itm} onClick={()=>setSelectedMonth(itm)} className={`child font ${itm==selectedMonth?("selected"):("")}`}>
+                            <div key={itm} onClick={()=>value.setSelectedMonth(itm)} 
+                                 className={classNames('child','font',{selected:itm=== value.selectedMonth,'':!itm=== value.selectedMonth})}
+                            >
                                 {itm}
                                 </div >
                             

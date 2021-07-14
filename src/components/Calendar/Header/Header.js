@@ -1,16 +1,20 @@
-import React,{useState} from 'react'
+import React,{useContext} from 'react'
 import './Header.css'
 import moment from 'moment'
+import calendarContext from '../../Context/Context';
+import classNames from 'classnames';
 
-const Header = ({buttonSelected,setbuttonSelected,Month,setMonth,value,setSelectedYear,selectedYear,selectedMonth,setSelectedMonth}) => {
-const changeShowMode=(e)=>{
-    e.target.id==1?setbuttonSelected(1):setbuttonSelected(2);
+const Header = (props) => {
+    const value = useContext(calendarContext);
+
+    const changeShowMode=(e)=>{
+        value.setbuttonSelected(e.target.id)
 }
 const currMonth=()=>{
-    return value.format("MMM");
+    return moment().format("MMM");
 }
 const currYear=()=>{
-    return value.format("YYYY");
+    return moment().format("YYYY");
 }
 const years = (startYear,endYear) => {
     const years = []
@@ -27,14 +31,14 @@ const years = (startYear,endYear) => {
              <div className="calendarHeader">
                 <div className="calendarSelect" > 
                     <select 
-                        onChange={(e)=>setSelectedYear(e.target.value)}
-                        value={selectedYear}
+                        onChange={(e)=>value.setSelectedYear(e.target.value)}
+                        value={value.selectedYear}
                         name="year"
                         id="year"
                         className="select font decorated"
                     >
                         {years(1999,2030).map((itm)=>
-                            <option key={itm} value={itm}  selected={currYear()==itm}>{itm}</option>
+                            <option key={itm} value={itm}  selected={currYear()===itm}>{itm}</option>
                         )}
 
 
@@ -43,9 +47,9 @@ const years = (startYear,endYear) => {
 
                 <div className="calendarSelect">
                     <select 
-                    value={selectedMonth}
+                    value={value.selectedMonth}
                     
-                    onChange={(e)=>setSelectedMonth(e.target.value)}
+                    onChange={(e)=>value.setSelectedMonth(e.target.value)}
                       name="month" 
                       id="month" 
                       className="select font decorated"
@@ -53,25 +57,26 @@ const years = (startYear,endYear) => {
                      {
                     moment.monthsShort().map((itm)=>
                             
-                     <option key={itm} value={itm}  selected={currMonth()==itm}>{itm}</option>
+                     <option key={itm} value={itm}  selected={currMonth()===itm}>{itm}</option>
                         )}
                     </select>
                 </div>
                 <div className="calendarButtonsContainer">
                     <button
-                     className={`font ${buttonSelected===1?"btnClicked":"btn"}`} 
+                     className={classNames('font',{btnClicked:parseInt(value.buttonSelected)===1,btn:parseInt(value.buttonSelected)!==1})}  
                      id={1}
                      onClick={changeShowMode}
-                     disabled={buttonSelected==1?true:false}
+                     disabled={value.buttonSelected===1}
                     >
                          Month
                     </button>
                     <button 
-                     className={`font ${buttonSelected===2?"btnClicked":"btn"}`} 
+                     className={classNames('font',{btnClicked:parseInt(value.buttonSelected)===2,btn:parseInt(value.buttonSelected)!==2})}  
+ 
                      id={2} 
                      onClick={changeShowMode}
                      name="Year"
-                     disabled={buttonSelected==2?true:false}
+                     disabled={value.buttonSelected===2}
                     >
                          Year
                     </button>
