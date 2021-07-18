@@ -17,6 +17,7 @@
     padding: 8px;
     background-color: transparent;
     border: 0px;
+    margin-left: 5px;
 }
 
 .monthesContainer{
@@ -31,4 +32,18 @@
     width: 30px;
     margin:5px 0px 32px 45px ;
     font-size: 15px;
+}
+.weekContainer{
+    display: flex;
+}
+.p10{
+    padding: 10px;
+
+}
+.p12{
+    padding: 12px;
+
+}
+.icon{
+    margin: 10px 0px 0px 0px ;
 }

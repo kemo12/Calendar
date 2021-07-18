@@ -1,0 +1,10 @@
+.App{
+    display: flex;
+    padding-left: 200px;
+}
+.componentContainer{
+    padding: 10px;
+    border: 1px solid black;
+    margin-right: 50px;
+    margin-top: 50px;
+}
